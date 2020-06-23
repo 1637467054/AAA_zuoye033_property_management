@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>物业新增页面</title>
+    <script src="/jquery-2.1.3.js"></script>
+    <script src="vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="index.css">
+    <!-- 引入组件库 -->
+    <script src="index.js"></script>
+    <style>
+        #box{
+            width: 100%;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <h1>物业管理系统</h1>
+    <div id="app">
+        <template>
+            <el-form ref="form" :model="owner" label-width="80px" style="width: 400px">
+                <el-form-item label="房产信息">
+                    <el-select v-model="owner.roomId" placeholder="请选择">
+                        <el-option
+                                v-for="room in rooms"
+                                :key="room.roomid"
+                                :label="room.roomname"
+                                :value="room.roomid">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="业主名称">
+                    <el-input v-model="owner.ownerName"></el-input>
+                </el-form-item>
+                <el-form-item label="业主电话">
+                    <el-input v-model="owner.ownerPhone"></el-input>
+                </el-form-item>
+                <el-form-item label="业主身份证号">
+                    <el-input v-model="owner.ownerId"></el-input>
+                </el-form-item>
+                <el-form-item label="业主邮箱">
+                    <el-input v-model="owner.ownereMail"></el-input>
+                </el-form-item>
+                <el-form-item label="车位信息">
+                    <el-input v-model="owner.ownerCar"></el-input>
+                </el-form-item>
+
+                <el-button type="primary" @click="submit()">确定</el-button>
+                <el-button type="primary" @click="empty()">重置</el-button>
+            </el-form>
+        </template>
+    </div>
+</div>
+<script>
+    var app=new Vue({
+        el:"#app",
+        data:{
+            owner:{},
+            rooms:[]
+
+        },
+        methods:{
+            submit:function () {
+                $.ajax({url:"/insertOwner",
+                    dataType:"json",
+                    data:JSON.stringify(app.owner),
+                    contentType:"application/json",
+                    type:"post",
+                    success:function (data) {
+                        if (data.state){
+                            alert("操作成功");
+                            window.location="/index";
+                        }else {
+                            alert("操作失败");
+                        }
+                    }
+                })
+            }
+        },
+        empty:function () {
+            app.owner={};
+        }
+    });
+    $.ajax({
+        url:"/selectRoom",
+        dataType:"json",
+        data:null,
+        type:"get",
+        success:function (data) {
+            console.log(data);
+            app.rooms=data.data;
+        }
+    });
+</script>
+</body>
+</html>

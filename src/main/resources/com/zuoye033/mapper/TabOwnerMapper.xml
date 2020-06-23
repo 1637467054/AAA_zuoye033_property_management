@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zuoye033.mapper.TabOwnerMapper">
+  <resultMap id="BaseResultMap" type="com.zuoye033.entity.TabOwner">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="Room_id" jdbcType="INTEGER" property="roomId" />
+    <result column="Owner_name" jdbcType="VARCHAR" property="ownerName" />
+    <result column="Owner_phone" jdbcType="VARCHAR" property="ownerPhone" />
+    <result column="Owner_id" jdbcType="VARCHAR" property="ownerId" />
+    <result column="Ownere_mail" jdbcType="VARCHAR" property="ownereMail" />
+    <result column="Owner_car" jdbcType="VARCHAR" property="ownerCar" />
+    <result column="Owner_time" jdbcType="DATE" property="ownerTime" />
+  </resultMap>
+  <select id="selectAllOwner" resultType="com.zuoye033.entity.TabOwner">
+      select a.*,b.Roomname from tab_owner a,tab_room b where a.Room_id=b.roomId;
+  </select>
+</mapper>

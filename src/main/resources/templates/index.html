@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>物业查看页面</title>
+    <script src="jquery-2.1.3.js"></script>
+    <style>
+        #box{
+            width: 100%;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <h1>物业管理系统</h1>
+        <button id="add">新增</button>
+        <table>
+            <tr>
+                <td>房间编号</td>
+                <td>业主名称</td>
+                <td>业主电话</td>
+                <td>业主身份证号</td>
+                <td>车位信息</td>
+                <td>业主邮箱</td>
+                <td>入住时间</td>
+            </tr>
+            <tbody id="data">
+
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $.ajax({
+            url:"/selectOwner",
+            dataType:"json",
+            data:null,
+            type:"get",
+            success:function (data) {
+                console.log(data);
+                var owner=data.data;
+                $("#data").html("");
+                for (var i=0;i<owner.length;i++){
+                    var html="<tr>\n" +
+                        "                <td>"+owner[i].roomId+"</td>\n" +
+                        "                <td>"+owner[i].ownerName+"</td>\n" +
+                        "                <td>"+owner[i].ownerPhone+"</td>\n" +
+                        "                <td>"+owner[i].ownerId+"</td>\n" +
+                        "                <td>"+owner[i].ownerCar+"</td>\n" +
+                        "                <td>"+owner[i].ownereMail+"</td>\n" +
+                        "                <td>"+owner[i].ownerTime+"</td>\n" +
+                        "            </tr>";
+                    $("#data").append(html);
+                }
+            }
+        });
+        $("#add").click(function () {
+            window.location.href="/insert";
+        })
+    </script>
+</body>
+</html>
